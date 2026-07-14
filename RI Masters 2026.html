@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RI Masters – Tournament Rules</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        :root {
+            --green: #1a5632;
+            --green-dark: #0f3d22;
+            --green-light: #2d7a4a;
+            --gold: #c9a84c;
+            --gold-light: #d4b96a;
+            --gold-dark: #a8892e;
+            --cream: #f8f5ee;
+            --dark: #1c1c1c;
+            --light-gray: #e8e5dd;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+            color: var(--dark);
+            background: var(--cream);
+            line-height: 1.6;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.12);
+            border: 1px solid var(--light-gray);
+        }
+
+        /* ── HEADER ──────────────────────── */
+        .header {
+            background: linear-gradient(180deg, var(--green-dark) 0%, var(--green) 60%, var(--green-light) 100%);
+            color: var(--white);
+            padding: 32px 40px 28px;
+            text-align: center;
+            border-bottom: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 120%, rgba(201,168,76,0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .logo-area {
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-area img {
+            max-height: 100px;
+            width: auto;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25));
+        }
+
+        /* fallback text logo if no image */
+        .logo-fallback {
+            display: none;
+            font-size: 52px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-family: 'Georgia', serif;
+            line-height: 1;
+        }
+        .logo-area img[src=""] {
+            display: none;
+        }
+        .logo-area img[src=""]+.logo-fallback {
+            display: block;
+        }
+
+        .header .tournament-name {
+            font-size: 34px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin: 6px 0 4px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .header .subtitle {
+            font-size: 16px;
+            font-style: italic;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+        .header .divider {
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+            margin: 12px auto 0;
+            border-radius: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── CONTENT ────────────────────── */
+        .content {
+            padding: 32px 40px 40px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin: 32px 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2:first-of-type {
+            margin-top: 0;
+        }
+        h2 .icon {
+            font-size: 20px;
+        }
+
+        h3 {
+            font-size: 14px;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin: 18px 0 6px;
+        }
+
+        p {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        /* ── FORMAT CARDS ───────────────── */
+        .format-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin: 14px 0 10px;
+        }
+
+        .format-card {
+            background: var(--cream);
+            border-radius: 6px;
+            padding: 18px 16px;
+            text-align: center;
+            border-top: 3px solid var(--green);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .format-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        .format-card:nth-child(1) {
+            border-top-color: var(--green-light);
+        }
+        .format-card:nth-child(2) {
+            border-top-color: var(--green);
+        }
+        .format-card:nth-child(3) {
+            border-top-color: var(--gold-dark);
+        }
+
+        .format-card .leg {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #777;
+            margin-bottom: 2px;
+        }
+        .format-card .format-name {
+            font-size: 17px;
+            font-weight: bold;
+            color: var(--dark);
+            letter-spacing: 1px;
+        }
+        .format-card .holes {
+            font-size: 12px;
+            color: var(--green-dark);
+            font-weight: bold;
+            margin: 4px 0 8px;
+        }
+        .format-card .tagline {
+            font-size: 11px;
+            font-style: italic;
+            color: #666;
+        }
+
+        /* ── TABLES ─────────────────────── */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 12px 0 16px;
+            font-size: 12.5px;
+        }
+        thead th {
+            background: linear-gradient(180deg, var(--green) 0%, var(--green-dark) 100%);
+            color: var(--white);
+            padding: 10px 12px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+        tbody td {
+            padding: 8px 10px;
+            border-bottom: 1px solid var(--light-gray);
+        }
+        tbody tr:nth-child(even) {
+            background: #fafaf7;
+        }
+        tbody tr:hover {
+            background: #f4f1e8;
+        }
+
+        .rule-list {
+            list-style: none;
+            padding: 0;
+        }
+        .rule-list li {
+            padding: 8px 0 8px 28px;
+            border-bottom: 1px dotted var(--light-gray);
+            font-size: 13px;
+            position: relative;
+        }
+        .rule-list li::before {
+            content: "◆";
+            position: absolute;
+            left: 4px;
+            color: var(--gold);
+            font-size: 10px;
+            top: 10px;
+        }
+
+        /* ── CALLOUT BOX ────────────────── */
+        .callout {
+            background: linear-gradient(135deg, #fdfaf0 0%, #fdf8e8 100%);
+            border-left: 4px solid var(--gold);
+            padding: 14px 18px;
+            margin: 14px 0;
+            font-size: 13px;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .callout strong {
+            color: var(--green-dark);
+        }
+
+        /* ── PRIZE BOX ──────────────────── */
+        .prize-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+            margin: 10px 0;
+        }
+        .prize-item {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 18px 16px;
+            text-align: center;
+            border: 1px solid var(--light-gray);
+            transition: transform 0.2s;
+        }
+        .prize-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .prize-item .prize-icon {
+            font-size: 30px;
+            margin-bottom: 6px;
+        }
+        .prize-item .prize-title {
+            font-weight: bold;
+            font-size: 14px;
+            color: var(--green-dark);
+        }
+        .prize-item .prize-desc {
+            font-size: 12px;
+            color: #555;
+            margin-top: 2px;
+        }
+
+        /* ── FOOTER ─────────────────────── */
+        .footer {
+            background: linear-gradient(180deg, var(--green-light) 0%, var(--green) 40%, var(--green-dark) 100%);
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding: 18px 40px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            border-top: 3px solid var(--gold);
+        }
+        .footer strong {
+            color: var(--gold);
+        }
+
+        /* ── DATE POLL ──────────────────── */
+        .poll-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 24px;
+            margin: 14px 0;
+            align-items: start;
+        }
+        .poll-form-side {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 20px 22px;
+            border: 1px solid var(--light-gray);
+        }
+        .poll-form-side .poll-name {
+            margin-bottom: 14px;
+        }
+        .poll-form-side .poll-name input {
+            width: 100%;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            background: #fdfdfb;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .poll-form-side .poll-name input:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(26,86,50,0.1);
+        }
+        .poll-options {
+            list-style: none;
+            padding: 0;
+        }
+        .poll-options li {
+            padding: 7px 0;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+        .poll-options li input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--green);
+            cursor: pointer;
+        }
+        .poll-chart-side {
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 20px 22px;
+            border: 1px solid var(--light-gray);
+            text-align: center;
+        }
+        .poll-chart-side canvas {
+            max-height: 260px;
+        }
+        .poll-msg {
+            font-size: 12px;
+            text-align: center;
+            margin-top: 10px;
+            min-height: 18px;
+        }
+        .poll-msg.success { color: #2e7d32; }
+        .poll-msg.error { color: var(--red); }
+
+        @media screen and (max-width: 700px) {
+            .poll-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ── BADGE ──────────────────────── */
+        .badge {
+            display: inline-block;
+            background: var(--green);
+            color: #fff;
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 4px 12px;
+            border-radius: 3px;
+            margin-right: 4px;
+            vertical-align: middle;
+            font-weight: bold;
+        }
+        .badge.gold {
+            background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+            color: #1c1c1c;
+        }
+
+        /* ── PRINT ──────────────────────── */
+        @media print {
+            body {
+                background: #fff;
+            }
+            .page {
+                box-shadow: none;
+                max-width: 100%;
+                page-break-after: always;
+                border: none;
+            }
+            .header {
+                padding: 20px 30px 18px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .content {
+                padding: 24px 30px 28px;
+            }
+            .format-grid {
+                gap: 10px;
+            }
+            .format-card {
+                padding: 12px 10px;
+            }
+            .format-card:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            .prize-item:hover {
+                transform: none;
+                box-shadow: none;
+            }
+            @page {
+                size: letter;
+                margin: 0.35in;
+            }
+        }
+
+        @media screen and (max-width: 700px) {
+            .format-grid {
+                grid-template-columns: 1fr;
+            }
+            .prize-box {
+                grid-template-columns: 1fr;
+            }
+            .content {
+                padding: 20px 18px;
+            }
+            .header {
+                padding: 20px 18px;
+            }
+            .header .tournament-name {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+
+        <!-- ─── HEADER ────────────────────────────── -->
+        <header class="header">
+            <div class="logo-area">
+                <!-- RI Masters Logo — keep "RI Masters Logo.png" in the same folder -->
+                <img src="RI Masters Logo.png" alt="RI Masters Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                <div class="logo-fallback">⛳ RI MASTERS</div>
+            </div>
+            <div class="tournament-name">RI Masters</div>
+            <div class="subtitle">Annual Golf Tournament</div>
+            <div class="divider"></div>
+        </header>
+
+        <!-- ─── CONTENT ───────────────────────────── -->
+        <div class="content">
+
+            <!-- OVERVIEW -->
+            <h2><span class="icon">📋</span> Tournament Overview</h2>
+            <p>Welcome to the <strong>RI Masters</strong> — a one-day, 18-hole team triathlon. Two-person teams will navigate three distinct formats across the round, testing every facet of partnership golf. Whether you sign up as a team or request a random partner, every player will swing their own club and contribute to the outcome.</p>
+
+            <div class="callout">
+                <strong>🖊️ Sign-Up:</strong> Players may register as a pre-formed <strong>two-person team</strong> or sign up individually to be <strong>paired randomly</strong> with another participant. Random pairs will be drawn and announced before the round.<br>
+                <a href="RI Masters Registration.html" style="display:inline-block; margin-top:10px; font-weight:bold; color:var(--green-dark); text-decoration:none; border-bottom:2px solid var(--gold);">⛳ Register Here →</a>
+            </div>
+
+            <!-- THE FORMAT -->
+            <h2><span class="icon">🏌️</span> The 18-Hole Team Triathlon</h2>
+            <p>One cumulative net score across all 18 holes. Lowest total wins. The format changes every six holes — here's how each leg works:</p>
+
+            <div class="format-grid">
+                <div class="format-card">
+                    <div class="leg">Leg 1</div>
+                    <div class="format-name">Shamble</div>
+                    <div class="holes">Holes 1 – 6</div>
+                    <div class="tagline">"Best drive, then you're on your own."</div>
+                </div>
+                <div class="format-card">
+                    <div class="leg">Leg 2</div>
+                    <div class="format-name">Modified Chapman</div>
+                    <div class="holes">Holes 7 – 12</div>
+                    <div class="tagline">"Hit mine, I'll hit yours."</div>
+                </div>
+                <div class="format-card">
+                    <div class="leg">Leg 3</div>
+                    <div class="format-name">Four-Ball</div>
+                    <div class="holes">Holes 13 – 18</div>
+                    <div class="tagline">"No safety nets. Own it."</div>
+                </div>
+            </div>
+
+            <!-- LEG DETAILS -->
+            <h3><span class="badge">LEG 1</span> Shamble — Holes 1–6</h3>
+            <ol style="font-size:13px; padding-left:20px; margin-bottom:10px;">
+                <li>Both players tee off.</li>
+                <li>The team selects the <strong>best drive</strong>.</li>
+                <li>Both players drop and play their own ball from that spot (within one club length, same lie condition — rough stays rough, fairway stays fairway).</li>
+                <li>Each player holes out with their own ball.</li>
+                <li>The <strong>lower net score</strong> between the two is the team score for the hole.</li>
+            </ol>
+
+            <h3><span class="badge">LEG 2</span> Modified Chapman — Holes 7–12</h3>
+            <ol style="font-size:13px; padding-left:20px; margin-bottom:10px;">
+                <li>Both players tee off.</li>
+                <li><strong>Swap balls:</strong> Player A hits Player B's tee shot. Player B hits Player A's tee shot.</li>
+                <li>After both second shots, <strong>select the best-positioned ball</strong>.</li>
+                <li>From there, <strong>alternate shots</strong> into the hole. The player whose second shot was <em>not</em> chosen hits the third shot, then alternate through to the hole.</li>
+                <li>Record the team's net score.</li>
+            </ol>
+
+            <h3><span class="badge gold">LEG 3</span> Four-Ball — Holes 13–18</h3>
+            <ol style="font-size:13px; padding-left:20px; margin-bottom:10px;">
+                <li>Both players play their own ball for the <strong>entire hole</strong> — no swaps, no shared drives.</li>
+                <li>The <strong>lower net score</strong> between the two is the team score for the hole.</li>
+                <li>If both make the same net score, take that score.</li>
+            </ol>
+
+            <!-- HANDICAP -->
+            <h2><span class="icon">📊</span> Handicap System</h2>
+            <p>Each player finds their individual <strong>course handicap</strong> using the chart below. Then the team's handicap is simply the <strong>average of the two</strong> (rounded to the nearest whole number). That one team handicap applies to all 18 holes, across every leg — no exceptions, no math gymnastics.</p>
+
+            <div style="text-align:center; margin:16px 0;">
+                <img src="Handicap.png" alt="Handicap Chart" style="max-width:100%; height:auto; border:1px solid var(--light-gray); border-radius:6px; box-shadow:0 2px 10px rgba(0,0,0,0.08);">
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rule</th>
+                        <th>Applies To</th>
+                        <th>Detail</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Team Handicap</strong></td>
+                        <td>All 18 holes, every leg</td>
+                        <td>Average of both players' course handicaps from the chart, rounded normally. That single number is the team's handicap for the round.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Stroke Allocation</strong></td>
+                        <td>All 18 holes</td>
+                        <td>Strokes fall on the <strong>hardest handicap holes</strong> per the scorecard. A team handicap of 10 receives one stroke on handicap holes 1–10.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Net Score</strong></td>
+                        <td>Every hole</td>
+                        <td>Team gross score minus any handicap stroke(s) received on that hole = team net score for that hole.</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="callout">
+                <strong>🧮 Example:</strong> Player A has a <strong>12</strong> course handicap, Player B has an <strong>8</strong>. The team handicap is <strong>10</strong> (average of 12 + 8). The team gets <strong>10 strokes</strong> across the round — one stroke on each of the 10 hardest handicap holes on the scorecard. Subtract one stroke there from the team's gross score. Same rule for every leg. No segment math required.
+            </div>
+
+            <!-- COURSE RULES -->
+            <h2><span class="icon">📜</span> Course Rules</h2>
+
+            <h3>Improved Lies &amp; Impeded Swings</h3>
+            <p>Improve your lie as needed to give yourself the best opportunity to hit a great golf shot. This includes moving the ball out of a divot or away from obstacles (rocks, roots, etc.) to avoid damaging your club. <strong>If the ball is in the rough, leave it in the rough</strong> — you may not move it from the rough onto the fairway.</p>
+
+            <h3>Maximum Score</h3>
+            <p><strong>Triple bogey</strong> (par + 3) is the maximum score on any hole. Once you've reached that score, pick up and move on.</p>
+
+            <h3>Gimmies</h3>
+            <p>Any putt less than <strong>3 feet</strong> in length is considered good with the next stroke.</p>
+
+            <h3>Out of Bounds or Water Ball</h3>
+            <p>If your ball goes out of bounds or into a water hazard, take a <strong>lateral drop at the point of entry</strong> and add a <strong>one-stroke penalty</strong>.</p>
+
+            <h3>Lost Ball</h3>
+            <p>If a ball is clearly agreed by others in your group to be in play but cannot be found (thick grass, another group picked it up, etc.), take a <strong>free drop</strong> with <strong>no penalty</strong> and play on. Keep the pace of play moving.</p>
+
+            <h3>Mulligans</h3>
+            <p>Each player receives <strong>one mulligan on the front nine and one on the back nine</strong>. Mulligans may be used on any shot (not just tee shots). Declare the mulligan before your next swing.</p>
+
+            <!-- PRIZES -->
+            <h2><span class="icon">🏆</span> Prizes</h2>
+            <div class="prize-box">
+                <div class="prize-item">
+                    <div class="prize-icon">🏆</div>
+                    <div class="prize-title">Winning Team</div>
+                    <div class="prize-desc">Prize TBD — awarded to both members of the team with the lowest overall net score using the handicap system.</div>
+                </div>
+                <div class="prize-item">
+                    <div class="prize-icon">🎁</div>
+                    <div class="prize-title">All Participants</div>
+                    <div class="prize-desc">Every golfer receives a custom hand-made leather koozie and RI Masters sticker(s).</div>
+                </div>
+            </div>
+
+            <!-- QUICK REFERENCE -->
+            <h2><span class="icon">⚡</span> Quick Reference</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Leg 1</th>
+                        <th>Leg 2</th>
+                        <th>Leg 3</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Holes</strong></td>
+                        <td>1 – 6</td>
+                        <td>7 – 12</td>
+                        <td>13 – 18</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Format</strong></td>
+                        <td>Shamble</td>
+                        <td>Modified Chapman</td>
+                        <td>Four-Ball</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Scoring</strong></td>
+                        <td>Lower net</td>
+                        <td>Team net</td>
+                        <td>Lower net</td>
+                    </tr>
+                    <tr>
+                        <td><strong>HCP Basis</strong></td>
+                        <td>Team average</td>
+                        <td>Team average</td>
+                        <td>Team average</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Max Score</strong></td>
+                        <td>Triple bogey</td>
+                        <td>Triple bogey</td>
+                        <td>Triple bogey</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- DATE POLL -->
+            <h2><span class="icon">🗓️</span> Date Poll</h2>
+            <p>Which dates can you play? Check all that apply. Results update live — no names are shown publicly.</p>
+
+            <div class="poll-grid">
+                <div class="poll-form-side">
+                    <div class="poll-name">
+                        <label style="font-size:12px;font-weight:bold;text-transform:uppercase;letter-spacing:1.5px;color:var(--green-dark);">Your Name</label>
+                        <input type="text" id="pollName" placeholder="First & last name" style="margin-top:4px;">
+                    </div>
+                    <ul class="poll-options">
+                        <li><label><input type="checkbox" class="poll-date" value="Aug 1"> Friday, August 1</label></li>
+                        <li><label><input type="checkbox" class="poll-date" value="Aug 2"> Saturday, August 2</label></li>
+                        <li><label><input type="checkbox" class="poll-date" value="Aug 8"> Friday, August 8</label></li>
+                        <li><label><input type="checkbox" class="poll-date" value="Aug 9"> Saturday, August 9</label></li>
+                        <li><label><input type="checkbox" class="poll-date" value="Aug 23"> Saturday, August 23</label></li>
+                    </ul>
+                    <button class="btn-submit" id="pollBtn" onclick="submitPoll()" style="width:100%;margin-top:10px;padding:10px;font-size:13px;">🗳️ Submit Vote</button>
+                    <div class="poll-msg" id="pollMsg"></div>
+                </div>
+                <div class="poll-chart-side">
+                    <canvas id="pollChart"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- ─── FOOTER ────────────────────────────── -->
+        <footer class="footer">
+            <strong>RI Masters</strong> &nbsp;|&nbsp; <strong>⛳</strong>
+        </footer>
+
+    </div>
+
+    <!-- ─── POLL SCRIPTS ─────────────────────────── -->
+    <script>
+        const POLL_URL = 'https://script.google.com/macros/s/AKfycbw9nELn_roSsOvjtIGMCT5Ko5UNZUvFLYvAgjN236njo97s0eZN7S3Xg-zWw-iwjaZjIg/exec';
+        const DATES = ['Aug 1','Aug 2','Aug 8','Aug 9','Aug 23'];
+        let pollChart = null;
+
+        // ── Load chart on page load ──
+        (async function(){ await loadPollResults(); })();
+
+        async function loadPollResults() {
+            try {
+                const resp = await fetch(POLL_URL + '?type=poll');
+                const data = await resp.json();
+                if (data.status !== 'ok') return;
+                drawChart(data.counts);
+            } catch(e) { console.error('Poll load error:', e); }
+        }
+
+        function drawChart(counts) {
+            const ctx = document.getElementById('pollChart').getContext('2d');
+            if (pollChart) pollChart.destroy();
+            const labels = DATES;
+            const values = labels.map(d => counts[d] || 0);
+            const colors = ['#1a5632','#2d7a4a','#c9a84c','#a8892e','#4a8c5c'];
+
+            pollChart = new Chart(ctx, {
+                type: 'pie',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors,
+                        borderColor: '#fff',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: { font: { family: 'Georgia', size: 12 }, padding: 16 }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(ctx) {
+                                    const total = ctx.dataset.data.reduce((a,b) => a + b, 0);
+                                    const pct = total > 0 ? Math.round(ctx.raw / total * 100) : 0;
+                                    return ctx.label + ': ' + ctx.raw + ' vote' + (ctx.raw !== 1 ? 's' : '') + ' (' + pct + '%)';
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        async function submitPoll() {
+            const name = document.getElementById('pollName').value.trim();
+            const btn = document.getElementById('pollBtn');
+            const msg = document.getElementById('pollMsg');
+
+            if (!name) { msg.textContent = 'Please enter your name.'; msg.className='poll-msg error'; return; }
+
+            const checked = Array.from(document.querySelectorAll('.poll-date:checked')).map(cb => cb.value);
+            if (checked.length === 0) { msg.textContent = 'Please select at least one date.'; msg.className='poll-msg error'; return; }
+
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            msg.className = 'poll-msg';
+            msg.textContent = '';
+
+            const payload = { type: 'poll', name: name, dates: checked, timestamp: new Date().toISOString() };
+
+            try {
+                await fetch(POLL_URL, { method: 'POST', mode: 'no-cors', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+                msg.textContent = '✅ Vote recorded!';
+                msg.className = 'poll-msg success';
+                document.getElementById('pollName').value = '';
+                document.querySelectorAll('.poll-date').forEach(cb => cb.checked = false);
+                btn.textContent = '🗳️ Submit Vote';
+                btn.disabled = false;
+                // Reload chart after short delay
+                setTimeout(loadPollResults, 1200);
+            } catch(e) {
+                console.error('Poll error:', e);
+                msg.textContent = 'Something went wrong. Try again.';
+                msg.className = 'poll-msg error';
+                btn.disabled = false;
+                btn.textContent = '🗳️ Submit Vote';
+            }
+        }
+    </script>
+
+</body>
+</html>
+                    
