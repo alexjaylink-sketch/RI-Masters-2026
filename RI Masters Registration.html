@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RI Masters – Registration</title>
+    <style>
+        :root {
+            --green: #1a5632;
+            --green-dark: #0f3d22;
+            --green-light: #2d7a4a;
+            --gold: #c9a84c;
+            --gold-light: #d4b96a;
+            --gold-dark: #a8892e;
+            --cream: #f8f5ee;
+            --dark: #1c1c1c;
+            --light-gray: #e8e5dd;
+            --white: #ffffff;
+            --red: #c0392b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+            color: var(--dark);
+            background: var(--cream);
+            line-height: 1.6;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        .page {
+            max-width: 8.5in;
+            margin: 0 auto;
+            background: var(--white);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.12);
+            border: 1px solid var(--light-gray);
+        }
+
+        /* ── HEADER ──────────────────────── */
+        .header {
+            background: linear-gradient(180deg, var(--green-dark) 0%, var(--green) 60%, var(--green-light) 100%);
+            color: var(--white);
+            padding: 32px 40px 28px;
+            text-align: center;
+            border-bottom: 5px solid var(--gold);
+            position: relative;
+            overflow: hidden;
+        }
+        .header::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(ellipse at 50% 120%, rgba(201,168,76,0.15) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .logo-area {
+            margin-bottom: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-area img {
+            max-height: 100px;
+            width: auto;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.25));
+        }
+
+        .logo-fallback {
+            display: none;
+            font-size: 52px;
+            font-weight: bold;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-family: 'Georgia', serif;
+            line-height: 1;
+        }
+        .logo-area img[src=""] {
+            display: none;
+        }
+        .logo-area img[src=""]+.logo-fallback {
+            display: block;
+        }
+
+        .header .tournament-name {
+            font-size: 34px;
+            font-weight: bold;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin: 6px 0 4px;
+            position: relative;
+            z-index: 1;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        .header .subtitle {
+            font-size: 16px;
+            font-style: italic;
+            letter-spacing: 3px;
+            color: rgba(255, 255, 255, 0.9);
+            position: relative;
+            z-index: 1;
+        }
+        .header .divider {
+            width: 80px;
+            height: 3px;
+            background: var(--gold);
+            margin: 12px auto 0;
+            border-radius: 1px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ── CONTENT ────────────────────── */
+        .content {
+            padding: 32px 40px 40px;
+        }
+
+        h2 {
+            font-size: 18px;
+            color: var(--green-dark);
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            margin: 32px 0 12px;
+            padding-bottom: 6px;
+            border-bottom: 2px solid var(--gold);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        h2:first-of-type {
+            margin-top: 0;
+        }
+        h2 .icon {
+            font-size: 20px;
+        }
+
+        p {
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        /* ── CALLOUT ────────────────────── */
+        .callout {
+            background: linear-gradient(135deg, #fdfaf0 0%, #fdf8e8 100%);
+            border-left: 4px solid var(--gold);
+            padding: 14px 18px;
+            margin: 14px 0 22px;
+            font-size: 13px;
+            border-radius: 0 6px 6px 0;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+        }
+        .callout strong {
+            color: var(--green-dark);
+        }
+
+        /* ── FORM ───────────────────────── */
+        .reg-form {
+            margin-top: 8px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--green-dark);
+            margin-bottom: 5px;
+        }
+        .form-group label .required {
+            color: var(--red);
+            font-size: 11px;
+        }
+
+        .form-group input[type="text"],
+        .form-group input[type="email"],
+        .form-group input[type="tel"],
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px 14px;
+            font-size: 14px;
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+            border: 2px solid var(--light-gray);
+            border-radius: 6px;
+            background: #fdfdfb;
+            color: var(--dark);
+            transition: border-color 0.2s, box-shadow 0.2s;
+            outline: none;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--green);
+            box-shadow: 0 0 0 3px rgba(26,86,50,0.1);
+        }
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: #b0ada5;
+            font-style: italic;
+        }
+        .form-group select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%231a5632' d='M6 8L0 2l1.4-1.4L6 5.2 10.6.6 12 2z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 14px center;
+            padding-right: 40px;
+            cursor: pointer;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .form-divider {
+            border: none;
+            border-top: 1px dotted var(--light-gray);
+            margin: 22px 0;
+        }
+
+        /* ── TEAMMATE FIELD (conditional) ─ */
+        .teammate-field {
+            display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+        .teammate-field.visible {
+            display: block;
+        }
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(-6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ── HANDICAP PREVIEW ──────────── */
+        .hcp-preview {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 8px;
+            padding: 12px 16px;
+            background: var(--cream);
+            border-radius: 6px;
+            font-size: 13px;
+        }
+        .hcp-preview img {
+            max-height: 140px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .hcp-preview img:hover {
+            transform: scale(1.03);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+        }
+        .hcp-preview .hcp-text {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+        }
+
+        /* ── SUBMIT ─────────────────────── */
+        .submit-row {
+            text-align: center;
+            margin-top: 28px;
+        }
+
+        .btn-submit {
+            display: inline-block;
+            background: linear-gradient(180deg, var(--green) 0%, var(--green-dark) 100%);
+            color: var(--white);
+            font-family: 'Georgia', 'Times New Roman', Times, serif;
+            font-size: 15px;
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 2.5px;
+            padding: 14px 48px;
+            border: none;
+            border-radius: 6px;
+            border-bottom: 3px solid var(--gold);
+            cursor: pointer;
+            transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+            background: linear-gradient(180deg, var(--green-light) 0%, var(--green) 100%);
+        }
+        .btn-submit:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        /* ── SUCCESS / ERROR MESSAGE ────── */
+        .form-message {
+            display: none;
+            text-align: center;
+            padding: 14px 18px;
+            border-radius: 6px;
+            margin-top: 16px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+        .form-message.success {
+            display: block;
+            background: #eaf7ea;
+            border: 1px solid #2e7d32;
+            color: #2e7d32;
+        }
+        .form-message.error {
+            display: block;
+            background: #fdecea;
+            border: 1px solid var(--red);
+            color: var(--red);
+        }
+
+        /* ── CONFIRMATION PANEL ────────── */
+        .confirmation-panel {
+            display: none;
+            text-align: center;
+            padding: 36px 24px;
+            animation: fadeSlide 0.45s ease;
+        }
+        .confirmation-panel.visible {
+            display: block;
+        }
+        .confirm-check {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 72px;
+            height: 72px;
+            margin: 0 auto 20px;
+            background: linear-gradient(135deg, var(--green) 0%, var(--green-dark) 100%);
+            border-radius: 50%;
+            font-size: 36px;
+            color: var(--white);
+            box-shadow: 0 4px 16px rgba(26,86,50,0.25);
+        }
+        .confirm-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--green-dark);
+            margin-bottom: 6px;
+            letter-spacing: 1px;
+        }
+        .confirm-subtitle {
+            font-size: 13px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 24px;
+        }
+        .confirm-summary {
+            display: inline-block;
+            text-align: left;
+            background: var(--cream);
+            border-radius: 8px;
+            padding: 18px 24px;
+            border: 1px solid var(--light-gray);
+            font-size: 13px;
+            line-height: 2;
+            min-width: 280px;
+        }
+        .confirm-summary strong {
+            color: var(--green-dark);
+            display: inline-block;
+            min-width: 100px;
+        }
+        .confirm-actions {
+            margin-top: 24px;
+        }
+        .confirm-actions a {
+            display: inline-block;
+            margin: 6px 10px;
+            font-size: 12px;
+            color: var(--green);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        .confirm-actions a:hover {
+            text-decoration: underline;
+        }
+
+        /* ── BACK LINK ──────────────────── */
+        .back-link {
+            display: inline-block;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--green);
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        /* ── FOOTER ─────────────────────── */
+        .footer {
+            background: linear-gradient(180deg, var(--green-light) 0%, var(--green) 40%, var(--green-dark) 100%);
+            color: rgba(255, 255, 255, 0.9);
+            text-align: center;
+            padding: 18px 40px;
+            font-size: 12px;
+            letter-spacing: 1.5px;
+            border-top: 3px solid var(--gold);
+        }
+        .footer strong {
+            color: var(--gold);
+        }
+
+        /* ── RESPONSIVE ─────────────────── */
+        @media screen and (max-width: 700px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .content {
+                padding: 20px 18px;
+            }
+            .header {
+                padding: 20px 18px;
+            }
+            .header .tournament-name {
+                font-size: 24px;
+                letter-spacing: 2px;
+            }
+            .btn-submit {
+                width: 100%;
+                padding: 14px 20px;
+            }
+            .hcp-preview {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+
+        @media print {
+            body {
+                background: #fff;
+            }
+            .page {
+                box-shadow: none;
+                border: none;
+            }
+            .header {
+                padding: 20px 30px 18px;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .content {
+                padding: 24px 30px 28px;
+            }
+            .btn-submit {
+                display: none;
+            }
+            @page {
+                size: letter;
+                margin: 0.35in;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="page">
+
+        <!-- ─── HEADER ────────────────────────────── -->
+        <header class="header">
+            <div class="logo-area">
+                <img src="RI Masters Logo.png" alt="RI Masters Logo" onerror="this.style.display='none';this.nextElementSibling.style.display='block';">
+                <div class="logo-fallback">⛳ RI MASTERS</div>
+            </div>
+            <div class="tournament-name">RI Masters</div>
+            <div class="subtitle">Player Registration</div>
+            <div class="divider"></div>
+        </header>
+
+        <!-- ─── CONTENT ───────────────────────────── -->
+        <div class="content">
+
+            <h2><span class="icon">📝</span> Register to Play</h2>
+            <p>Fill out the form below to secure your spot in the <strong>RI Masters</strong>. Registration is open to all — sign up as a team or fly solo and we'll pair you up.</p>
+
+
+
+            <!-- ── REGISTRATION FORM ──────────────── -->
+            <form class="reg-form" id="regForm" onsubmit="return handleSubmit(event)">
+
+                <!-- PLAYER INFO -->
+                <h2><span class="icon">👤</span> Player Information</h2>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name <span class="required">*</span></label>
+                        <input type="text" id="firstName" name="firstName" placeholder="Your first name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name <span class="required">*</span></label>
+                        <input type="text" id="lastName" name="lastName" placeholder="Your last name" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" placeholder="(401) 555-0123">
+                </div>
+
+                <hr class="form-divider">
+
+                <!-- TEAM PREFERENCE -->
+                <h2><span class="icon">🤝</span> Team Preference</h2>
+
+                <div class="form-group">
+                    <label for="regType">How would you like to register? <span class="required">*</span></label>
+                    <select id="regType" name="regType" required onchange="toggleTeammateField()">
+                        <option value="">— Select an option —</option>
+                        <option value="individual">Sign me up solo — pair me randomly</option>
+                        <option value="team">I'm registering as a pre-formed team</option>
+                    </select>
+                </div>
+
+                <div class="form-row teammate-field" id="teammateField">
+                    <div class="form-group">
+                        <label for="teammateFirstName">Teammate First Name <span class="required">*</span></label>
+                        <input type="text" id="teammateFirstName" name="teammateFirstName" placeholder="Teammate's first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="teammateLastName">Teammate Last Name <span class="required">*</span></label>
+                        <input type="text" id="teammateLastName" name="teammateLastName" placeholder="Teammate's last name">
+                    </div>
+                </div>
+
+                <hr class="form-divider">
+
+                <!-- HANDICAP -->
+                <h2><span class="icon">📊</span> Handicap</h2>
+                <p>Use the chart below to determine your <strong>18-hole course handicap</strong> based on your typical score relative to par.</p>
+
+                <div class="hcp-preview">
+                    <a href="Handicap.png" target="_blank" title="Click to enlarge">
+                        <img src="Handicap.png" alt="Handicap Chart">
+                    </a>
+                    <span class="hcp-text">👆 Click the chart to enlarge, then enter your handicap below.</span>
+                </div>
+
+                <div class="form-group">
+                    <label for="handicap">Your Course Handicap (from chart) <span class="required">*</span></label>
+                    <select id="handicap" name="handicap" required>
+                        <option value="">— Select your handicap —</option>
+                        <option value="0">0 — Scratch or better</option>
+                        <option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option>
+                        <option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option>
+                        <option value="9">9</option><option value="10">10</option><option value="11">11</option><option value="12">12</option>
+                        <option value="13">13</option><option value="14">14</option><option value="15">15</option><option value="16">16</option>
+                        <option value="17">17</option><option value="18">18</option><option value="19">19</option><option value="20">20</option>
+                        <option value="21">21</option><option value="22">22</option><option value="23">23</option><option value="24">24</option>
+                        <option value="25">25</option><option value="26">26</option><option value="27">27</option><option value="28">28</option>
+                        <option value="29">29</option><option value="30">30</option><option value="31">31</option><option value="32">32</option>
+                        <option value="33">33</option><option value="34">34</option><option value="35">35</option><option value="36">36</option>
+                    </select>
+                </div>
+
+                <hr class="form-divider">
+
+                <!-- NOTES -->
+                <h2><span class="icon">💬</span> Anything Else?</h2>
+
+                <div class="form-group">
+                    <label for="notes">Notes or Special Requests</label>
+                    <textarea id="notes" name="notes" placeholder="Dietary restrictions, accessibility needs, preferred playing partners, anything we should know..."></textarea>
+                </div>
+
+                <!-- SUBMIT -->
+                <div class="submit-row">
+                    <button type="submit" class="btn-submit" id="submitBtn">⛳  Submit Registration</button>
+                    <div class="form-message" id="formMessage"></div>
+                </div>
+
+            </form>
+
+            <!-- ── CONFIRMATION PANEL (hidden until submit succeeds) ──── -->
+            <div class="confirmation-panel" id="confirmationPanel">
+                <div class="confirm-check">✓</div>
+                <div class="confirm-title">You're In!</div>
+                <div class="confirm-subtitle">Registration submitted successfully</div>
+                <div class="confirm-summary" id="confirmSummary">
+                    <!-- filled dynamically -->
+                </div>
+                <div class="confirm-actions">
+                    <a href="RI Masters 2026.html">← View Tournament Rules</a>
+                    <a href="#" onclick="resetAndShowForm()">Register Another Player →</a>
+                </div>
+            </div>
+
+            <!-- BACK LINK -->
+            <div style="text-align:center; margin-top:8px;" id="backLinkRow">
+                <a href="RI Masters 2026.html" class="back-link">← Back to Tournament Rules</a>
+            </div>
+
+        </div>
+
+        <!-- ─── FOOTER ────────────────────────────── -->
+        <footer class="footer">
+            <strong>RI Masters</strong> &nbsp;|&nbsp; <strong>⛳</strong>
+        </footer>
+
+    </div>
+
+    <!-- ─── SCRIPTS ──────────────────────────────── -->
+    <script>
+        // ── Toggle teammate fields based on reg type ──
+        function toggleTeammateField() {
+            const regType = document.getElementById('regType').value;
+            const teammateFields = document.querySelectorAll('.teammate-field');
+            const teammateFirstName = document.getElementById('teammateFirstName');
+            const teammateLastName  = document.getElementById('teammateLastName');
+
+            if (regType === 'team') {
+                teammateFields.forEach(el => el.classList.add('visible'));
+                teammateFirstName.required = true;
+                teammateLastName.required  = true;
+            } else {
+                teammateFields.forEach(el => el.classList.remove('visible'));
+                teammateFirstName.required = false;
+                teammateLastName.required  = false;
+                teammateFirstName.value = '';
+                teammateLastName.value  = '';
+
+            }
+        }
+
+        // ── Form submission handler ──
+        // TODO: Replace GOOGLE_SCRIPT_URL with the deployed Google Apps Script web app URL
+        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwmjFspkllkXjsyp2QMupO9CVYaDNJE7VpzHmnTmNI_H7VeunR34Q7ZGQ8Pi3TtGX_5fA/exec';
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+
+            const form = document.getElementById('regForm');
+            const btn   = document.getElementById('submitBtn');
+            const msg   = document.getElementById('formMessage');
+
+            // Basic validation
+            const regType = document.getElementById('regType').value;
+            if (regType === 'team') {
+                const tf = document.getElementById('teammateFirstName').value.trim();
+                const tl = document.getElementById('teammateLastName').value.trim();
+                if (!tf || !tl) {
+                    showMessage('Please enter your teammate\'s first and last name.', 'error');
+                    return false;
+                }
+            }
+
+            // Disable button, show loading
+            btn.disabled = true;
+            btn.textContent = 'Submitting...';
+            msg.className = 'form-message';
+            msg.style.display = 'none';
+
+            // Gather form data
+            const formData = {
+                firstName:         document.getElementById('firstName').value.trim(),
+                lastName:          document.getElementById('lastName').value.trim(),
+                phone:             document.getElementById('phone').value.trim(),
+                regType:           regType,
+                teammateFirstName: document.getElementById('teammateFirstName').value.trim(),
+                teammateLastName:  document.getElementById('teammateLastName').value.trim(),
+                handicap:          document.getElementById('handicap').value,
+                notes:             document.getElementById('notes').value.trim(),
+                timestamp:         new Date().toISOString()
+            };
+
+            try {
+                // Attempt submission to Google Sheets
+                await fetch(GOOGLE_SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(formData)
+                });
+
+                // Show confirmation panel with summary
+                showConfirmation(formData);
+                form.reset();
+                toggleTeammateField();
+
+            } catch (err) {
+                console.error('Submission error:', err);
+                showMessage('Something went wrong. Please try again or contact the tournament organizer.', 'error');
+            }
+
+            btn.disabled = false;
+            btn.textContent = '⛳  Submit Registration';
+            return false;
+        }
+
+        function showConfirmation(data) {
+            // Hide the form and back link, show the confirmation panel
+            document.getElementById('regForm').style.display = 'none';
+            document.getElementById('backLinkRow').style.display = 'none';
+            document.getElementById('formMessage').style.display = 'none';
+
+            // Build summary lines
+            const handicapLabel = document.getElementById('handicap').querySelector(
+                'option[value="' + data.handicap + '"]'
+            );
+            const hcpText = handicapLabel ? handicapLabel.textContent : data.handicap;
+
+            const summary = document.getElementById('confirmSummary');
+            summary.innerHTML = [
+                '<strong>Name:</strong> ' + escapeHtml(data.firstName + ' ' + data.lastName),
+                data.phone ? '<strong>Phone:</strong> ' + escapeHtml(data.phone) : null,
+                '<strong>Sign-up:</strong> ' + (data.regType === 'team' ? 'Pre-formed team' : 'Solo — pair me randomly'),
+                data.regType === 'team' && data.teammateFirstName
+                    ? '<strong>Teammate:</strong> ' + escapeHtml(data.teammateFirstName + ' ' + data.teammateLastName)
+                    : null,
+                '<strong>Handicap:</strong> ' + escapeHtml(hcpText),
+                data.notes ? '<strong>Notes:</strong> ' + escapeHtml(data.notes) : null
+            ].filter(Boolean).join('<br>');
+
+            document.getElementById('confirmationPanel').classList.add('visible');
+        }
+
+        function resetAndShowForm() {
+            document.getElementById('regForm').style.display = '';
+            document.getElementById('backLinkRow').style.display = '';
+            document.getElementById('confirmationPanel').classList.remove('visible');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function showMessage(text, type) {
+            const msg = document.getElementById('formMessage');
+            msg.textContent = text;
+            msg.className = 'form-message ' + type;
+            msg.style.display = 'block';
+            if (type === 'success') {
+                setTimeout(() => { msg.style.display = 'none'; }, 8000);
+            }
+        }
+    </script>
+
+</body>
+</html>
